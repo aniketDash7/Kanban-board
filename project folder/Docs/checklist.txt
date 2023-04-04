@@ -1,0 +1,15 @@
+App components 
+==============
+
+Basic Login Form - √
+User Dashboard - √
+All lists visible on Dashboard - √
+New list can get updated - √
+New Card can be created - √
+Existing card can be deleted - √
+Card can be moved from one list to another - √
+SummaryPage - √
+Summary Page gives information of completed tasks - √
+
+
+

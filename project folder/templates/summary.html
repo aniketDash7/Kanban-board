@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static',filename='summary.css') }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+<title>{% block title %}{{ current_user.username }}'s summary{% endblock %}</title>
+</head>
+<body>
+    {% block content %}
+    <div class="container header">
+        <h1 id="boardName">{{ current_user.username }}'s track</h1>
+        <form class="logoutSection" method="POST" action="/logout">
+            <input class="logoutButton" type="submit" value="Logout">
+        </form>
+    </div>
+
+    <div class="container">
+
+        <div class="container stats">
+            
+            <div class="report">
+                <p>You were able to complete <span class="nums">  {{ successNum }}</span> tasks within deadline !</p>
+
+                <ul>
+                    {% for i in success %}
+                        <li>{{i}}</li>
+                    {% endfor %}
+                </ul>
+
+                <p>Following <span class="nums"> {{ failedNum }}</span>tasks need some work :</p>
+                <ul>
+                    {% for j in failed %}
+                        <li>{{j}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="container canvasDiv">
+                
+                <canvas id="myChart" width="200" height="200"></canvas>
+
+
+            </div>
+            
+
+        
+            
+        </div>
+    </div>
+
+
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['success','failed'],
+                datasets: [{
+                    
+                    data: [{{successNum}},{{failedNum}}],
+                    backgroundColor: [
+                        'rgba(0,125,121,0.7)',
+                        'rgba(218,30,40,0.7)'
+
+                    ],
+                    hoverOffset: 4
+                }]
+            }
+        });
+    </script>
+    {% endblock %}
+
+</body>
+</html>

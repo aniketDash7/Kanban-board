@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+  {% block head %}
+  <link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}">
+  {% endblock %}
+
+
+  <title>{% block title %} {{ current_user.username }}'s Dashboard {% endblock %}</title>
+    
+ </head>
+
+  <body>
+    {% block content %}
+    <header class="container">
+      {% if current_user.is_authenticated %}
+        <h3>{{ today }}</h3>
+        <h2 id="boardName">{{ current_user.username }}'s Board</h2>
+      {% endif %}
+      <form class="summarySection" method="GET" action="/summary">
+        <input class="summaryButton" type="submit" value="Summary">
+      </form>
+      <form class="logoutSection" method="POST" action="/logout">
+        <input class="logoutButton" type="submit" value="Logout">
+      </form>
+    </header>
+    <br></br>
+    <div class="optionSection container">
+      <h2>Add Tasks </h2>
+      <div class="innerContainer">
+        <form method="POST" action="/main">
+          <input id="addText" placeholder="Task" type="text" name="title" required>
+          <input id="deadlineCatch" placeholder="Deadline" type="date" name="deadline" required>
+            <select id="selector" name="status" required>
+              <option disabled hidden selected>Status</option>
+              {% for i in data %}
+
+                <option value="{{ i.status }}">{{ i.status }}</option>
+
+              {% endfor %}
+            </select>
+          <input class="addbutton" type="submit" value="+">
+        </form>
+      </div>
+
+    </div>
+
+
+  {% if error %}
+    <p class="error"><strong>Error:</strong> {{ error }}
+  {% endif %}
+
+
+  <section class="container">
+    <div>
+      <div class="actionContainer">
+        <h2 class="cardTitle">Backlog</h2>
+        <table>
+          {% for task in backlog %}
+            <tr>
+              <td>
+                <ul class="sortable connectedSortable" >
+                  <li class="taskNotif">  {{task.title}}</li>
+                  <li class="deadlineNotif">Deadline : {{task.deadline}}</li>
+                </ul>
+              </td>
+              <td>
+                <form method="POST" action="./update">
+                  <input type="hidden" value="{{task.title}}" name="name">
+                  <input type="hidden" value="doing" name="newstatus">
+                  <input type="submit" value="&#10004" class="updateButton">
+                </form>
+              </td>
+              <td>
+                <form method="POST" action="./delete" >
+                  <input type="hidden" value="{{task.title}}" name="title">
+                  <input type="submit" value="&#10006" class="deleteButton">
+    
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+        </table>
+        </div>
+
+      <div class="actionContainer">
+      <h2 class="cardTitle">To-do</h2>
+      <table>
+        {% for task in todo %}
+          <tr>
+            <td>
+              <ul class="sortable connectedSortable" >
+                <li class="taskNotif">  {{task.title}} </li>
+                <li class="deadlineNotif">Deadline : {{task.deadline}}</li>
+              </ul>
+            </td>
+            <td>
+              <form method="POST" action="./update">
+                <input type="hidden" value="{{task.title}}" name="name">
+                <input type="hidden" value="doing" name="newstatus">
+                <input type="submit" value="&#10004" class="updateButton">
+              </form>
+            </td>
+            <td>
+              <form method="POST" action="./delete">
+                <input type="hidden" value="{{task.title}}" name="title">
+                <input type="submit" value="&#10006" class="deleteButton">
+
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+      </table>
+    </div>
+
+    <div class="actionContainer">
+    <h2 class="cardTitle">Current</h2>
+    <table>
+      {% for task in doing %}
+        <tr>
+          <td>
+            <ul class="sortable connectedSortable" >
+              <li class="taskNotif">{{task.title}}</li>
+              <li class="deadlineNotif">Deadline-{{task.deadline}}</li>
+            </ul>
+          </td>
+          <td>
+            <form method="POST" action="./update">
+              <input type="hidden" value="{{task.title}}" name="name">
+              <input type="hidden" value="done" name="newstatus">
+              <input type="submit" value="&#10004" class="updateButton">
+
+            </form>
+          </td>
+          <td>
+            <form method="POST" action="./delete" >
+              <input type="hidden" value="{{task.title}}" name="title">
+              <input type="submit" value="&#10006" class="deleteButton">
+
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+
+    <div class="actionContainer">
+    <h2 class="cardTitle">Done</h2>
+    <table>
+      {% for task in done %}
+        <tr>
+          <td>
+            <ul class="sortable connectedSortable" >
+              <li class="taskNotif">{{ task.title }}</li>
+              <li class="deadlineNotif">Deadline-{{ task.deadline }}</li>
+            </ul>
+          </td>
+          <td>
+            <form method="POST" action="./delete" >
+              <input type="hidden" value="{{task.title}}" name="title">
+              <input type="submit" value="&#10006" class="deleteButton">
+
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+  </div>
+  </section>
+  {% endblock %}
+
+  {% block scripting %}
+  <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+  {% endblock %}

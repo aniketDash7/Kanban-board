@@ -1,0 +1,84 @@
+body{
+
+    background: #e0e0e0;
+
+}
+
+.header{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.logoutButton{
+
+    color: #28282B; 
+    border-radius: 3px;
+    font-size: 1.4rem;
+    border:none;
+    outline:none;
+    background: none;
+    transition:all 0.2s;
+  
+}
+
+.logoutButton:hover{
+
+    background:#28282B;
+    color:#e0e0e0;
+  
+}
+
+#boardName{
+
+    margin:2rem 0;
+    background-color: #28282b;
+    color: #e0e0e0;
+    padding:1rem;
+    width:40%;
+}
+
+.stats{
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+h1{
+
+    color:#28282b;
+    font-family: 'Raleway';
+
+}
+.canvasDiv{
+
+    height:500px;
+    width:500px;
+    box-shadow:  20px 20px 60px #bebebe,
+    -20px -20px 60px #ffffff;
+    border-radius: 20px;
+}
+
+p{
+
+    font-size: 1.2rem;
+
+}
+
+.report{
+
+    border: #28282b solid 2px;
+    padding:2rem;
+}
+
+.nums{
+
+    background: #28282b;
+    color:#e0e0e0;
+    padding:0.3rem;
+
+}
+
